@@ -1,0 +1,14 @@
+{
+  "lang": "en",
+  "name": "Math Challenge",
+  "short_name": "Math Challenge",
+  "icons": [
+    {
+      "src": "./android-touch-icon.png",
+      "sizes": "132x132",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./?utm_source=homescreen",
+  "display": "standalone"
+}
