@@ -13,6 +13,12 @@
 	let timeCount = 10;
 	let timer = null;
 	let startLabel = 'Start';
+	let modes = [
+		{ id: 0, value: 'Easy', maxNumber: 9 },
+		{ id: 1, value: 'Normal', maxNumber: 25 },
+		{ id: 2, value: 'Hard', maxNumber: 99 }
+	];
+	let modeSelected = 0;
 
 	$: opr1 = problems[problemIndex].opr1;
 	$: opr2 = problems[problemIndex].opr2;
@@ -22,8 +28,9 @@
 	function generateProblems() {
 		const result = [];
 		while (result.length < 10) {
-			const opr1 = 1 + Math.floor(Math.random() * 99);
-			const opr2 = 1 + Math.floor(Math.random() * 99);
+			const { maxNumber } = modes[modeSelected];
+			const opr1 = 1 + Math.floor(Math.random() * maxNumber);
+			const opr2 = 1 + Math.floor(Math.random() * maxNumber);
 			result.push({ opr1, opr2, ope: '+', score: 0 });
 		}
 		return result;
@@ -75,8 +82,10 @@
 					startLabel = 'Pretty good!';
 				} else if (totalScore < 80) {
 					startLabel = 'Good Job!';
+				} else if (totalScore < 90) {
+					startLabel = 'Excellent!';
 				} else {
-					startLabel = 'Excellent!!!';
+					startLabel = 'Wow!';
 				}
 			}
 		}, 300);
@@ -129,6 +138,13 @@
 			</div>
 		{:else}
 			<StartButton on:click={start}>{@html startLabel}</StartButton>
+			<div class="mode">
+				<select bind:value={modeSelected}>
+					{#each modes as mode}
+						<option value={mode.id}>{mode.value}</option>
+					{/each}
+				</select>
+			</div>
 		{/if}
 	</div>
 	<KeyPad on:key={handleKey}/>
@@ -165,5 +181,10 @@
 		position: absolute;
 		top: 24px;
 		right: 24px;
+	}
+
+	.mode {
+		position: absolute;
+		bottom: 24px;
 	}
 </style>
